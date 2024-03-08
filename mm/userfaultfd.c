@@ -498,15 +498,6 @@ retry:
 		goto out_unlock;
 
 	/*
-	 * If memory mappings are changing because of non-cooperative
-	 * operation (e.g. mremap) running in parallel, bail out and
-	 * request the user to retry later
-	 */
-	err = -EAGAIN;
-	if (mmap_changing && READ_ONCE(*mmap_changing))
-		goto out_unlock;
-
-	/*
 	 * Make sure the vma is not shared, that the dst range is
 	 * both valid and fully within a single existing vma.
 	 */
@@ -668,10 +659,10 @@ ssize_t mcopy_atomic(struct mm_struct *dst_mm, unsigned long dst_start,
 }
 
 ssize_t mfill_zeropage(struct mm_struct *dst_mm, unsigned long start,
-		       unsigned long len, bool *mmap_changing)
+		       unsigned long len, bool *mmap_changing, __u64 mode)
 {
 	return __mcopy_atomic(dst_mm, start, 0, len, MCOPY_ATOMIC_ZEROPAGE,
-			      mmap_changing, 0);
+			      mmap_changing, mode);
 }
 
 ssize_t mcopy_continue(struct mm_struct *dst_mm, unsigned long start,
