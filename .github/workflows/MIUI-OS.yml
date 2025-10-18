@@ -31,7 +31,7 @@ jobs:
                                     
     - name: Fetch KernelSU-SuSFS
       run: |
-            curl -LSs "https://raw.githubusercontent.com/slipzryzens/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main  
+            "https://raw.githubusercontent.com/Mr-Morat/KernelSU-Next/susfs/kernel/setup.sh" | bash -s susfs
 
     - name: MIUI Dimensi
       run: |
